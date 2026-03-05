@@ -1,0 +1,432 @@
+The steps the involved in RAG :
+
+1. DOCUMENTS 
+
+     This is the source of knowledge
+
+     ex: pdf,word,txt,data bases,api etc....
+
+     to load this we use 
+
+          PDFLoader
+          CSVLoader
+          WebLoader
+          TextLoader
+          UnstructuredLoader
+
+Cleaning documents
+          
+          Remove HTML
+          Remove noise
+          Normalize text
+          Remove duplicates
+          Metadata extraction
+
+2.Chunking :
+
+   Dividing documents into smaller chunks
+
+Fixed chunking
+
+chunk_size = 500
+
+overlap = 50
+
+Chunking is one of the most critical parts of RAG.
+
+Bad chunking → bad retrieval → bad answers.
+
+These are the 6 strategies used in modern RAG systems.
+
+    1. Fixed Chunking
+    
+    Simplest method.
+    
+    Documents are split into fixed character or token length.
+    
+    Example:
+    
+    chunk_size = 500
+    chunk_overlap = 50
+    
+    Advantages:
+
+    simple
+    
+    fast
+    
+    Disadvantages:
+    
+    may break sentences or meaning.
+    
+    2. Recursive Chunking
+    
+    This is the most common strategy used in LangChain.
+    
+    LangChain uses RecursiveCharacterTextSplitter.
+    
+    It splits text hierarchically:
+    
+    Paragraph
+      ↓
+      Sentence
+      ↓
+      Words
+      
+      This preserves semantic meaning better than fixed chunking.
+      
+      3. Semantic Chunking
+      
+      Chunks are created based on meaning, not length.
+      
+      Example process:
+      
+        Sentence embeddings
+        ↓
+        Similarity detection
+        ↓
+        Group related sentences
+        
+        Advantages:
+        
+        preserves context
+        
+        improves retrieval accuracy
+        
+        Used in advanced RAG systems.
+        
+        4. Token-Based Chunking
+
+        Chunks are created based on token limits of the LLM.
+        
+        Example:
+        
+        chunk_size = 256 tokens
+        
+        Useful when models have strict context windows.
+        
+        5. Sliding Window Chunking
+        
+        Chunks overlap with previous chunks.
+
+        Example:
+        
+        Chunk 1 : tokens 1–500
+        Chunk 2 : tokens 450–950
+        Chunk 3 : tokens 900–1400
+        
+        Advantages:
+        
+        preserves context across boundaries
+        
+        reduces lost information
+
+      6. Structure-Based Chunking
+      
+      Documents are split based on document structure.
+      
+      Example:
+      
+      Title
+      Section
+      Paragraph
+      Bullet points
+      
+      Used in:
+      
+      research papers
+      
+      legal documents
+
+
+      Based on model token limits.
+      Embeddings
+      
+      Text → numerical vectors.
+      
+      Used to measure semantic similarity.
+      
+      Embedding models examples:
+      
+      SentenceTransformers
+
+      OpenAI Embeddings
+      
+      BGE embeddings
+      
+      E5 embeddings
+      
+      Important concepts:
+      
+      Vector similarity
+      Cosine similarity
+      Embedding dimension
+       Vector Databases
+
+3.Embeddings are stored in vector databases.
+
+  Popular ones:
+
+      FAISS
+      
+      Pinecone
+      
+      Chroma
+      
+      Weaviate
+
+      Milvus
+
+Topics to include:
+
+      Indexing
+      Similarity search
+      Approximate nearest neighbors
+      Vector indexing
+       Retrieval Methods
+
+
+Types:
+
+Dense Retrieval
+
+Uses embeddings.
+
+Example:
+
+    Vector similarity search
+    Sparse Retrieval
+
+    Keyword search.
+
+Example:
+
+      BM25
+      TF-IDF
+4.Hybrid Retrieval
+
+Combination of:
+
+      Keyword search + vector search
+      
+      Very common in production.
+
+Multi-query retrieval
+
+   Generates multiple queries for better retrieval.
+
+Self-query retrieval
+
+    LLM generates structured queries.
+
+ Query Processing
+
+    Important step before retrieval.
+
+Includes:
+
+Query rewriting
+
+   Improves query clarity.
+
+Example:
+
+User query → optimized query
+Query expansion
+
+   Adds related keywords.
+
+Query decomposition
+
+   Breaks complex queries into sub-queries.
+5. Reranking
+
+After retrieving documents, rerank them.
+
+Purpose:
+
+      Improve relevance.
+      
+      Reranker models:
+      
+      BGE reranker
+      
+      Cross-encoder reranker
+      
+      Cohere reranker
+
+Pipeline:
+
+Retriever → Top 20 docs
+Reranker → Top 5 docs
+6.Context Construction
+
+After retrieval we prepare the final prompt context.
+
+Includes:
+
+Remove redundant chunks
+Combine context
+Limit token length
+Order by relevance
+
+Techniques:
+
+Context compression
+
+Context filtering
+
+Sliding window context
+
+7.Prompt Engineering for RAG
+
+Prompt must guide the model.
+
+Example:
+
+Answer only using the provided context.
+If the answer is not in the context, say "I don't know".
+
+Prompt elements:
+
+Instructions
+Context
+User question
+
+8.LLM Generation
+
+LLM generates answer using context.
+
+Examples:
+
+Llama 3
+
+Mistral
+
+Phi
+
+Parameters to control:
+
+temperature
+max tokens
+top-p
+9.Evaluation of RAG
+
+But production systems require evaluation.
+
+Metrics:
+
+Faithfulness
+Answer relevance
+Context precision
+Context recall
+
+Framework:
+
+RAGAS
+
+Guardrails
+
+Prevent incorrect responses.
+
+Includes:
+
+Hallucination detection
+Safety filters
+Answer verification
+Advanced RAG Techniques
+
+
+
+ALSO.......,
+
+Graph RAG
+
+Uses knowledge graphs.
+
+Adaptive RAG
+
+Changes retrieval strategy dynamically.
+
+Self-RAG
+
+Model decides whether retrieval is needed.
+
+Corrective RAG
+
+Detects incorrect answers and retrieves again.
+
+Agentic RAG
+
+Uses AI agents for multi-step reasoning.
+
+
+RAG Frameworks
+
+Mention frameworks used to build RAG.
+
+LangChain
+
+General LLM application framework.
+
+Haystack
+
+Enterprise search pipelines.
+
+DSPy
+
+Automatic prompt optimization.
+
+
+
+RAG Pipeline (Full Industrial Version)
+
+Real production RAG pipeline:
+
+Documents
+↓
+Data Cleaning
+↓
+Chunking
+↓
+Embeddings
+↓
+Vector Storage
+↓
+Query Input
+↓
+Query Rewriting
+↓
+Query Expansion
+↓
+Retriever
+↓
+Hybrid Retrieval
+↓
+Reranking
+↓
+Context Filtering
+↓
+Prompt Construction
+↓
+LLM Generation
+↓
+Evaluation
+↓
+Guardrails
+↓
+Final Output
+
+
+
+ Applications of RAG
+
+Include examples.
+
+Chat with PDFs
+Enterprise knowledge assistants
+Legal document analysis
+Medical information retrieval
+Research assistants
+Customer support bots
+
