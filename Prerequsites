@@ -1,0 +1,54 @@
+RAG : Usually while llm model tries to answer the solution it is tough that the answer should be from trained data or related to it
+   If not it tries to hallucinates the answers....
+So we use RAG to reduce hallucinations and answer in documents we choose 
+There are many types of RAG
+
+Traditional Rag : this system where taking the documents find the relevent chunk nd answer
+
+Advanced RAG : It solves the problem of irrelevant generation...After it gets the related context it tries to rerank also one more is like it tries to rewrite the query given by user to make it more accurate
+this is where we use chunking,embedding for getting the semantic relations also
+
+Hybrid: It is a mix where it gets the relevent and also the semantic context(mostly used)
+  Keyword search (BM25)
++
+Vector search (Embeddings)
+
+Agentic RAG:this is advanced where the agent tries to choose the defination
+Agent decides:
+• what to retrieve
+• when to retrieve
+• which tool to use
+• how many steps to take
+There are many ways to implement the rag 
+langchain                         HAYSTACK                   DSPY     
+HAYSTACK is mostly used for entriprisal usages
+DSPY is more advanced research done by standfords and no need to query rewriting asthe model can rewrite it is automated
+DSPy automatically optimizes prompts and reasoning pipelines.
+
+Most of industry usage and present we will be focusing on the RAG implemenattion using the Langchain
+
+So lets go through the pipeline of RAG
+Basic:
+         Documents
+         Chunking
+         Embedding
+        Storage
+        Prompt
+         Query
+         retrievers
+        TOP K 5
+         Output display
+
+Advanced:
+    Document
+    Chunking
+    Embedding
+    Vecot Storage
+    Query
+    Query Rewriting
+    Retrieve
+    Reranking
+  Prompt construction
+   llm generation
+   Output 
+
